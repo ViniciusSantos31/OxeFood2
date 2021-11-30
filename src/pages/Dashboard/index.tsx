@@ -5,7 +5,9 @@ import api from "../../services/api";
 import { Food as FoodCard } from "../../components/Food";
 import ModalAddFood from "../../components/ModalAddFood";
 import ModalEditFood from "../../components/ModalEditFood";
+import ModalLogin from "../../components/ModalLogin";
 import { FoodsContainer } from "./styles";
+import { getUserLogged } from "../../utils/getUserLogged";
 
 export interface Food {
   id: number;
@@ -21,6 +23,7 @@ export interface Restaurant {
   editingFood: Food;
   modalOpen: boolean;
   editModalOpen: boolean;
+  modalLoginOpen: boolean;
 }
 
 const Dashboard: React.FC = () => {
@@ -29,6 +32,7 @@ const Dashboard: React.FC = () => {
     editingFood: {} as Food,
     editModalOpen: false,
     modalOpen: false,
+    modalLoginOpen: false,
   });
 
   useEffect(() => {
@@ -92,13 +96,26 @@ const Dashboard: React.FC = () => {
     setState({ ...state, editModalOpen: !state.editModalOpen });
   };
 
+  const toggleModalLogin = () => {
+    setState({ ...state, modalLoginOpen: !state.modalLoginOpen });
+  };
+
   const handleEditFood = (food: Food) => {
     setState({ ...state, editingFood: food, editModalOpen: true });
   };
 
+  const [user, setUser] = useState<{ isLogged: boolean; user: any }>({
+    isLogged: false,
+    user: {},
+  });
+
+  useEffect(() => {
+    setUser(getUserLogged());
+  }, []);
+
   return (
     <>
-      <Header openModal={toggleModal} />
+      <Header openModal={user.isLogged ? toggleModal : toggleModalLogin} />
       <ModalAddFood
         isOpen={state.modalOpen}
         setIsOpen={toggleModal}
@@ -110,6 +127,7 @@ const Dashboard: React.FC = () => {
         editingFood={state.editingFood}
         handleUpdateFood={handleUpdateFood}
       />
+      <ModalLogin isOpen={state.modalLoginOpen} setIsOpen={toggleModalLogin} />
 
       <FoodsContainer data-testid="foods-list">
         {state.foods &&

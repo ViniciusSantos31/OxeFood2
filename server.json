@@ -1,7 +1,28 @@
 {
   "foods": [
     {
-      "id": 2,
+      "id": 1,
+      "owner": 2,
+      "name": "Macarrão",
+      "description": "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
+      "price": "21.90",
+      "available": true,
+      "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food1.png",
+      "isAvailable": true
+    },
+    {
+      "id": 3,
+      "owner": 2,
+      "name": "Arroz",
+      "description": "Arroz com fritas e batatas cozidas no forno.",
+      "price": "19.90",
+      "available": false,
+      "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food3.png",
+      "isAvailable": true
+    },
+    {
+      "id": 6,
+      "owner": 2,
       "name": "Veggie",
       "description": "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
       "price": "21.90",
@@ -10,13 +31,56 @@
       "isAvailable": true
     },
     {
-      "id": 3,
+      "id": 7,
+      "owner": 2,
       "name": "A la Camarón",
       "description": "Macarrão com vegetais de primeira linha e camarão dos 7 mares.",
       "price": "25.00",
       "available": true,
       "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food3.png",
       "isAvailable": true
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Vincius Santos",
+      "email": "vncssnts2016@hotmail.com",
+      "password": "123456",
+      "role": "USER",
+      "orders": [
+        {
+          "id": 1,
+          "products": [
+            {
+              "id": 1,
+              "name": "Macarrão",
+              "description": "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
+              "price": "21.90",
+              "available": true,
+              "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food1.png",
+              "isAvailable": true
+            },
+            {
+              "id": 2,
+              "name": "Veggie",
+              "description": "Macarrão com pimentão, ervilha e ervas finas colhidas no himalaia.",
+              "price": "21.90",
+              "available": true,
+              "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food2.png",
+              "isAvailable": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "password": "123456",
+      "name": "Restaurante do josé",
+      "email": "resdojoao@gmail.com",
+      "role": "ADMIN",
+      "orders": null
     }
   ]
 }

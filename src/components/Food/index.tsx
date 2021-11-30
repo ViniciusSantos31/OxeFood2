@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { FiEdit3, FiTrash } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import { FiEdit3, FiMinus, FiPlus, FiTrash } from "react-icons/fi";
 
 import { Container } from "./styles";
 import api from "../../services/api";
+import { getUserLogged } from "../../utils/getUserLogged";
+import Button from "../Button";
 
-interface Food {
+interface IFood {
   id: number;
   name: string;
   description: string;
@@ -14,8 +16,8 @@ interface Food {
 }
 
 interface FoodProps {
-  food: Food;
-  handleEditFood: (data: Food) => void;
+  food: IFood;
+  handleEditFood: (data: IFood) => void;
   handleDelete: (id: number) => void;
 }
 
@@ -39,6 +41,37 @@ export const Food: React.FC<FoodProps> = ({
     handleEditFood(food);
   };
 
+  const [user, setUser] = useState<{ isLogged: boolean; user: any }>({
+    isLogged: false,
+    user: {},
+  });
+
+  const handleAddToCart = () => {
+    const actualCart = localStorage.getItem("@cart");
+    if (actualCart) {
+      const cart = JSON.parse(actualCart);
+      const has = cart.find((item: any) => item.id === food.id);
+      if (has) {
+        cart.map((item: any) => {
+          if (item.id === food.id) {
+            item.quantity += 1;
+          }
+          return item;
+        });
+      } else {
+        cart.push({ ...food, quantity: 1 });
+      }
+
+      localStorage.setItem("@cart", JSON.stringify(cart));
+    } else {
+      localStorage.setItem("@cart", JSON.stringify([{ ...food, quantity: 1 }]));
+    }
+  };
+
+  useEffect(() => {
+    setUser(getUserLogged());
+  }, []);
+
   return (
     <Container available={isAvailable}>
       <header>
@@ -51,42 +84,55 @@ export const Food: React.FC<FoodProps> = ({
           R$ <b>{food.price}</b>
         </p>
       </section>
-      <section className="footer">
-        <div className="icon-container">
-          <button
-            type="button"
-            className="icon"
-            onClick={setEditingFood}
-            data-testid={`edit-food-${food.id}`}
-          >
-            <FiEdit3 size={20} />
-          </button>
+      {user.isLogged && user.user.role === "ADMIN" && (
+        <section className="footer">
+          <div className="icon-container">
+            <button
+              type="button"
+              className="icon"
+              onClick={setEditingFood}
+              data-testid={`edit-food-${food.id}`}
+            >
+              <FiEdit3 size={20} />
+            </button>
 
-          <button
-            type="button"
-            className="icon"
-            onClick={() => handleDelete(food.id)}
-            data-testid={`remove-food-${food.id}`}
-          >
-            <FiTrash size={20} />
-          </button>
-        </div>
+            <button
+              type="button"
+              className="icon"
+              onClick={() => handleDelete(food.id)}
+              data-testid={`remove-food-${food.id}`}
+            >
+              <FiTrash size={20} />
+            </button>
+          </div>
 
-        <div className="availability-container">
-          <p>{isAvailable ? "Disponível" : "Indisponível"}</p>
+          <div className="availability-container">
+            <p>{isAvailable ? "Disponível" : "Indisponível"}</p>
 
-          <label htmlFor={`available-switch-${food.id}`} className="switch">
-            <input
-              id={`available-switch-${food.id}`}
-              type="checkbox"
-              checked={isAvailable}
-              onChange={toggleAvailable}
-              data-testid={`change-status-food-${food.id}`}
+            <label htmlFor={`available-switch-${food.id}`} className="switch">
+              <input
+                id={`available-switch-${food.id}`}
+                type="checkbox"
+                checked={isAvailable}
+                onChange={toggleAvailable}
+                data-testid={`change-status-food-${food.id}`}
+              />
+              <span className="slider" />
+            </label>
+          </div>
+        </section>
+      )}
+      {user.isLogged && user.user.role === "USER" && (
+        <section className="footer">
+          <div className="availability-container">
+            <Button
+              icon={FiPlus}
+              label="Adicionar no carrinho"
+              onClick={handleAddToCart}
             />
-            <span className="slider" />
-          </label>
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
     </Container>
   );
 };

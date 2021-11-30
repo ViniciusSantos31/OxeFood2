@@ -1,12 +1,28 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   background: #c72828;
-  padding: 30px 0;
+  width: 100%;
+  padding: 30px;
+  height: 250px;
+
+  #logo {
+    width: 100%;
+    font-size: 2rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+
+    button {
+      margin-left: 20px;
+    }
+  }
 
   header {
-    width: 1280px;
-    margin: 0 auto;
+    width: 100%;
+    /* margin: 0 auto; */
     padding: 0 0 160px;
     display: flex;
     align-items: center;
@@ -25,11 +41,17 @@ export const Container = styled.div`
           flex-direction: row;
           align-items: center;
 
+          height: 60px;
+
           .text {
             padding: 16px 24px;
+            font-size: 1rem;
           }
 
           .icon {
+            display: flex;
+            align-items: center;
+            height: 100%;
             display: flex;
             padding: 16px 16px;
             background: #41c900;

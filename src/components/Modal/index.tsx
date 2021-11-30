@@ -26,6 +26,7 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <ReactModal
+      data-testid="modal"
       shouldCloseOnOverlayClick={!false}
       onRequestClose={setIsOpen}
       isOpen={state.modalStatus}

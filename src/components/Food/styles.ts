@@ -8,6 +8,12 @@ export const Container = styled.div<ContainerProps>`
   background: #f0f0f5;
   border-radius: 8px;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  max-width: 352px;
+
   header {
     background: #ffb84d;
     border-radius: 8px 8px 0px 0px;
@@ -22,9 +28,18 @@ export const Container = styled.div<ContainerProps>`
         opacity: 0.3;
       `};
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
     img {
       pointer-events: none;
       user-select: none;
+      max-width: 352px;
+      max-height: 198px;
+      width: 100%;
+      height: 100%;
     }
   }
 
